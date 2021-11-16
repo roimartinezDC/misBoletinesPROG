@@ -54,7 +54,7 @@ public class Clase {
     public boolean esFechaValida(int dia, int mes, int anho) {
         boolean bol=true;
         if(anho>1600&&anho<3000) {
-            if(mes==1||mes==2||mes==3||mes==4||mes==5||mes==6||mes==7||mes==8||mes==9||mes==10||mes==11||mes==12) {
+            if(mes>=1&&mes<=12) {
                 switch(mes) {
                     case 1:
                     case 3:
