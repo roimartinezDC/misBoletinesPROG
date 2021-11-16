@@ -8,13 +8,14 @@ public class Juego {
     }
     public void aleatorios() {
         double num = Math.round(1+Math.random()*50);
-        System.out.println(num);
+        int intentos =0;
         int prueba;
         
         boolean acierto=false;
        
         while(acierto==false) {
             prueba=Integer.parseInt(JOptionPane.showInputDialog("Adivine el número :"));
+            intentos++;
             if(prueba!=num) {
                 if(num-prueba>20||prueba-num>20) {
                 JOptionPane.showMessageDialog(null, "Muy lejos");
@@ -27,7 +28,7 @@ public class Juego {
                 }
             }
             if(prueba==num){
-                JOptionPane.showMessageDialog(null, "¡Acertaste!");
+                JOptionPane.showMessageDialog(null, "¡Acertaste!\nIntentos: "+intentos);
                 acierto=true;
             }
         }

@@ -1,6 +1,5 @@
 package boletin11_1;
 /**
- *
  * @author Roi Martínez
  */
 import javax.swing.*;
@@ -9,7 +8,7 @@ public class Juego {
     }
     public void numeros() {
         int num=Integer.parseInt(JOptionPane.showInputDialog("Introduce número a adivinar:"));
-        while(num<1||num>50) {
+        while(num>1||num<50) {
             num=Integer.parseInt(JOptionPane.showInputDialog("El número debe de estar entre 1 y 50:"));
         }
         int intentosMax=Integer.parseInt(JOptionPane.showInputDialog("Introduce número max de intentos:"));
