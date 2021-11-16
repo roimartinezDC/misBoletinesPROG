@@ -10,7 +10,6 @@ public class Coche {
     private int tiempo;
     
     public Coche(String matric, int tiemp) {
-        Garaje gar = new Garaje();
         matricula = matric;
         tiempo = tiemp;
     }
