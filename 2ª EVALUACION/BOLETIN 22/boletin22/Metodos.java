@@ -1,5 +1,6 @@
 package boletin22;
 
+import java.util.stream.IntStream;
 import libreriaroi.Leer;
 
 /**
@@ -16,13 +17,14 @@ public class Metodos {
         }
         jornadas[jornadas.length-1] = "Total";
                 
-        for (int i = 0; i < equipos.length; i++) {
+        /*for (int i = 0; i < equipos.length; i++) {
             equipos[i] = Leer.inString("Nombre equipo "+(i+1)+":");
         }
+        */
         
         for (int i = 0; i < goles.length; i++) {
             for (int e = 0; e < goles[i].length-1; e++) {
-                goles[i][e] = Leer.inInteger("Goles "+equipos[i]+", jornada "+(e+1)+" :");
+                goles[i][e] = (int) Math.round(1+Math.random()*9);
             }
         }
         int[] suma = new int[goles.length];
@@ -57,17 +59,18 @@ public class Metodos {
     
     public static void mostrar(int[][]goles, String[]equipos, String[]jornadas) {
         System.out.println();
+        System.out.println();
         System.out.printf("%15s"," ");
         System.out.print("  ");
         for (int i = 0; i < jornadas.length; i++) {
-            System.out.printf("%2s    ", jornadas[i]);
+            System.out.printf("%3s    ", jornadas[i]);
         }
         System.out.println();
         for (int i = 0; i < goles.length; i++) {
             System.out.printf("%-15s", equipos[i]);
             System.out.print("  ");
             for (int e = 0; e < goles[i].length-1; e++) {
-                System.out.printf("%2s    ", goles[i][e]);
+                System.out.printf("%3s    ", goles[i][e]);
             }
             System.out.printf(" %2s", goles[i][goles[i].length-1]);
             System.out.println();
@@ -78,48 +81,45 @@ public class Metodos {
     public static void mostrarMaxGoleadorJornada(int[][]goles, String[]equipos, String[]jornadas) {
        System.out.println();
         System.out.printf("%18s"," ");
-        System.out.print("  ");
+        System.out.print("   ");
         for (int i = 0; i < jornadas.length; i++) {
-            System.out.printf("%2s    ", jornadas[i]);
+            System.out.printf("%3s    ", jornadas[i]);
         }
         System.out.println();
         for (int i = 0; i < goles.length; i++) {
-            System.out.printf("%d  %-15.13s", i+1, equipos[i]);
+            System.out.printf("%-4d", i+1);
+            System.out.printf("%-15.13s", equipos[i]);
             System.out.print("  ");
             for (int e = 0; e < goles[i].length-1; e++) {
-                System.out.printf("%2s    ", goles[i][e]);
+                System.out.printf("%3s    ", goles[i][e]);
             }
             System.out.printf(" %2s", goles[i][goles[i].length-1]);
             System.out.println();
         }
         System.out.println();
-        System.out.printf("%-19s","Más goleador:");
-        System.out.print("  ");
+        System.out.printf("%-19s  ","Más goleador:");
         int masGoles;
         int num = 0;
         for (int e = 0; e < goles[0].length-1; e++) {
             masGoles = 0;
             for (int i = 0; i < goles.length; i++) {
-                if (goles[i][e] > masGoles) {
+                if (goles[i][e] >= masGoles) {
                     masGoles = goles[i][e];
                     num = i+1;
                 }
             }
-            System.out.printf("%d     ", num);
+            System.out.printf("%3d    ", num);
         }
         System.out.println();
     }
     
     public static void mostrarMaxGoleador(int[][]goles, String[]equipos, String[]jornadas) {
+        
         int masG = 0;
-        int posGx = 0;
-        int posGy = 0;
         for (int i = 0; i < goles.length; i++) {
             for (int e = 0; e < goles[0].length-1; e++) {
-                if (goles[i][e] > masG) {
+                if (goles[i][e] >= masG) {
                     masG = goles[i][e];
-                    posGx = i;
-                    posGy = e;
                 }
             }
         }
@@ -128,27 +128,34 @@ public class Metodos {
         System.out.printf("%15s"," ");
         System.out.print("  ");
         for (int i = 0; i < jornadas.length; i++) {
-            if (posGy == i) {
-                System.out.print(ANSI_RED);
+            for (int e = 0; e < goles.length; e++) {
+                if (goles[e][i] == masG  && i != jornadas.length-1) {
+                    System.out.print(ANSI_RED);
+                    break;
+                }
             }
-            System.out.printf("%2s    ", jornadas[i]);
+            System.out.printf("%3s    ", jornadas[i]);
             System.out.print(ANSI_RESET);
         }
         System.out.println();
+        
+        boolean result; //valor booleano el cual se va a utilizar como condicion en el If
+        final int MASG = masG; //la variable tiene que ser final para poder realizar la comparación con el IntStream
         for (int i = 0; i < goles.length; i++) {
-            if (i == posGx) {
+            result = IntStream.of(goles[i]).anyMatch(x -> x == MASG); //comparacion con la libreria importada de IntStream
+            if (result) {
                 System.out.print(ANSI_RED);
             }
             System.out.printf("%-15s", equipos[i]);
             System.out.print("  ");
             System.out.print(ANSI_RESET);
             for (int e = 0; e < goles[i].length-1; e++) {
-                if (i == posGx && e == posGy) {
+                if (goles[i][e] == masG) {
                     System.out.print(ANSI_RED);
-                    System.out.printf("%2s    ", goles[i][e]);
+                    System.out.printf("%3s    ", goles[i][e]);
                     System.out.print(ANSI_RESET);
                 } else {
-                    System.out.printf("%2s    ", goles[i][e]);
+                    System.out.printf("%3s    ", goles[i][e]);
                 }
             }
             System.out.printf(" %2s", goles[i][goles[i].length-1]);
@@ -170,13 +177,13 @@ public class Metodos {
                 System.out.printf("%15s"," ");
                 System.out.print("  ");
                 for (int j = 0; j < jornadas.length; j++) {
-                    System.out.printf("%2s    ", jornadas[j]);
+                    System.out.printf("%3s    ", jornadas[j]);
                 }
                 System.out.println();
                 System.out.printf("%-15s", equipos[i]);
                 System.out.print("  ");
                 for (int e = 0; e < goles[0].length-1; e++) {
-                    System.out.printf("%2s    ", goles[i][e]);
+                    System.out.printf("%3s    ", goles[i][e]);
                 }
                 System.out.printf(" %2s", goles[i][goles[i].length-1]);
                 System.out.println();
@@ -199,13 +206,13 @@ public class Metodos {
                 System.out.println();
                 System.out.printf("%15s"," ");
                 System.out.print("  ");
-                System.out.printf("%2s    ", jornadas[i]);
+                System.out.printf("%3s    ", jornadas[i]);
                 
                 System.out.println();
                 for (int e = 0; e < goles.length; e++) {
                     System.out.printf("%-15s", equipos[e]);
                     System.out.print("  ");
-                    System.out.printf("%2s    ", goles[e][i]);
+                    System.out.printf("%3s    ", goles[e][i]);
                     System.out.println();
                 }
                 break;

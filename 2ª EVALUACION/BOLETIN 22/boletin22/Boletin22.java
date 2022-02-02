@@ -10,11 +10,11 @@ public class Boletin22 {
     public static void main(String[] args) {
         int var = 0;
         
-        int njornada = Leer.inInteger("Nº de jornadas:");
-        int nequipo = Leer.inInteger("Nº de equipos:");
+        int njornada = 23;
+        int nequipo = 20;
         
         int[][] goles = new int[nequipo][njornada+1];
-        String[] equipos = new String[nequipo];
+        String[] equipos = {"R.Madrid", "Sevilla", "Betis", "Atl. Madrid", "Barcelona", "Real Sociedad", "Villarreal", "Rayo Vallecano", "Athletic", "Valencia","Osasuna", "Celta", "Espanyol", "Granada", "Elche", "Getafe", "Mallorca", "Cádiz", "Alavés", "Levante"};
         String[] jornadas = new String[njornada+1];
         
         Metodos.crear(goles, equipos, jornadas); 
@@ -27,9 +27,11 @@ public class Boletin22 {
                     Metodos.mostrar(goles, equipos, jornadas);
                     break;
                 case 2:
+                    Metodos.ordenar(goles, equipos);
                     Metodos.mostrarMaxGoleadorJornada(goles, equipos, jornadas);
                     break;
                 case 3:
+                    Metodos.ordenar(goles, equipos);
                     Metodos.mostrarMaxGoleador(goles, equipos, jornadas);
                     break;
                 case 4:
